@@ -1,0 +1,53 @@
+..........F............................................................. [ 60%]
+.......................................F.......                          [100%]
+=================================== FAILURES ===================================
+_________________ test_base_model_override_keeps_tier_settings _________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x79255ed95150>
+
+    def test_base_model_override_keeps_tier_settings(monkeypatch):
+        """Students may pick their own base model; the tier's hardware settings stay."""
+        from labkit.config import get_tier
+        monkeypatch.setenv("BASE_MODEL", "Qwen/Qwen3.5-2B")
+        t = get_tier("T4")
+        assert t.model_id == "Qwen/Qwen3.5-2B"
+>       assert (t.max_length, t.per_device_batch, t.grad_accum) == (1024, 1, 16)
+E       assert (256, 1, 16) == (1024, 1, 16)
+E         
+E         At index 0 diff: 256 != 1024
+E         Use -v to get more diff
+
+tests/test_env_and_silent_defaults.py:152: AssertionError
+____ test_generated_notebook_matches_its_source[05_evaluate_and_verdict.py] ____
+
+src = PosixPath('/content/Day21-Track3-Finetuning-Lab/notebooks/05_evaluate_and_verdict.py')
+
+    @pytest.mark.parametrize("src", sorted((ROOT / "notebooks").glob("*.py")),
+                             ids=lambda p: p.name)
+    def test_generated_notebook_matches_its_source(src):
+        """`colab/*.ipynb` is generated from `notebooks/*.py`, and nothing enforced that the
+        generated copy was rebuilt after the source changed. F-18 is exactly that bug: the
+        notebooks shipped a crash already fixed in the source, so every Colab student hit it
+        while the repo looked correct. Checking only the bootstrap cell was not enough.
+        """
+        nb = ROOT / "colab" / f"Lab21_{src.stem}.ipynb"
+        assert nb.exists(), f"{nb.name} missing — run `make colab`"
+        generated = _notebook_text(nb)
+    
+        missing = [
+            line for line in src.read_text(encoding="utf-8").splitlines()
+            if (stripped := line.strip())
+            and not stripped.startswith("#")        # markdown/comments move around
+            and len(stripped) > 12                  # skip `import os`, `rows = []`, ...
+            and stripped not in generated
+        ]
+>       assert not missing, (
+            f"{nb.name} is stale — {len(missing)} source lines are not in it. "
+            f"Run `make colab`. First: {missing[0][:90]!r}")
+E       AssertionError: Lab21_05_evaluate_and_verdict.ipynb is stale — 2 source lines are not in it. Run `make colab`. First: 'report.write_json([{"i": i, "ticket": row["input"], "label": row["label"], "prediction": p'
+E       assert not ['report.write_json([{"i": i, "ticket": row["input"], "label": row["label"], "prediction": pred, "ft_score": ev.triage...pred) in enumerate(zip(regression, rpreds_ft))], "predictions_regression_correct.json", results_dir=ROOT / "results")']
+
+tests/test_repo_structure.py:143: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_env_and_silent_defaults.py::test_base_model_override_keeps_tier_settings
+FAILED tests/test_repo_structure.py::test_generated_notebook_matches_its_source[05_evaluate_and_verdict.py]

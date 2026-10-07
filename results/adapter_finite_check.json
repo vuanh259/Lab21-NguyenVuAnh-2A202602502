@@ -1,0 +1,30 @@
+[
+  {
+    "run": "attn_only",
+    "file": "adapters/attn_only/adapter_model.safetensors",
+    "elements": 32456704,
+    "nonfinite_elements": 0,
+    "nonzero_elements": 32456704
+  },
+  {
+    "run": "correct",
+    "file": "adapters/correct/adapter_model.safetensors",
+    "elements": 32464896,
+    "nonfinite_elements": 0,
+    "nonzero_elements": 32464896
+  },
+  {
+    "run": "qlora",
+    "file": "adapters/qlora/adapter_model.safetensors",
+    "elements": 32464896,
+    "nonfinite_elements": 0,
+    "nonzero_elements": 32464896
+  },
+  {
+    "run": "wrong_lr",
+    "file": "adapters/wrong_lr/adapter_model.safetensors",
+    "elements": 32464896,
+    "nonfinite_elements": 0,
+    "nonzero_elements": 32464896
+  }
+]

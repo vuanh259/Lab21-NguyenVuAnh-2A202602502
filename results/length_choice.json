@@ -1,0 +1,6 @@
+{
+  "p95": 98,
+  "max": 101,
+  "max_length": 256,
+  "reason": "NB1 measured distribution; covers all training samples"
+}
