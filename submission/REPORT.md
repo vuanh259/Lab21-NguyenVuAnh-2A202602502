@@ -2,7 +2,7 @@
 
 **Học viên:** Nguyễn Vũ Anh  
 **Mã học viên:** 2A202602502  
-**Lớp:** Track 3: AI Application
+**Lớp:** Track 3A: AI Application
 
 ## Phạm vi và lựa chọn
 
